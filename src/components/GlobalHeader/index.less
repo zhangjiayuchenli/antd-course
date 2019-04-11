@@ -1,0 +1,25 @@
+@import '~antd/lib/style/themes/default.less';
+.fixedHeader {
+  top: 2px;
+  left: 0;
+  z-index: 9;
+  width: 100%;
+  background-color: #fff;
+  height: auto;
+  transition: width 0.2s;
+}
+.drop{
+  float: right;
+}
+.action {
+  display: inline-block;
+  height: 100%;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  > i {
+    color: @text-color;
+    vertical-align: middle;
+  }
+
+}
