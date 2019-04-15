@@ -39,10 +39,8 @@ class RegistrationForm extends Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                const {sex,name,password,address,birthday,email,phone} = values
-                const {id}=JSON.parse(sessionStorage.getItem('user'))
-                console.log(id)
-                this.props.onUpdate({sex,name,password,address,birthday,email,phone,id})
+                const {confirm ,...value} = values
+                this.props.onUpdate(value)
 
 
             }
@@ -58,7 +56,7 @@ class RegistrationForm extends Component {
 
     compareToFirstPassword = (rule, value, callback) => {
         const form = this.props.form;
-        if (value && value !== form.getFieldValue('password')) {
+        if (value && value !== form.getFieldValue('teacherPassword')) {
             callback('Two passwords that you enter is inconsistent!');
         } else {
             callback();
@@ -113,7 +111,7 @@ class RegistrationForm extends Component {
             </span>
                             )}
                         >
-                            {getFieldDecorator('name', {
+                            {getFieldDecorator('teacherName', {
                                 initialValue:teacherName,
                                 rules: [{  message: 'Please input your nickname!', whitespace: true }],
                             })(
@@ -123,7 +121,7 @@ class RegistrationForm extends Component {
                         <Form.Item
                             label="密码"
                         >
-                            {getFieldDecorator('password', {
+                            {getFieldDecorator('teacherPassword', {
                                 initialValue:teacherPassword,
                                 rules: [{
                                      message: 'Please input your password!',
@@ -149,7 +147,7 @@ class RegistrationForm extends Component {
                             )}
                         </Form.Item>
                         <Form.Item label="Sex">
-                            {getFieldDecorator('sex', {
+                            {getFieldDecorator('teacherSex', {
                                 initialValue:teacherSex,
                                 rules: [{  message: 'Please enter user sex' },
                                 ],
@@ -164,7 +162,7 @@ class RegistrationForm extends Component {
                             </Select>)}
                         </Form.Item>
                         <Form.Item label="Address">
-                            {getFieldDecorator('address', {
+                            {getFieldDecorator('teacherAddress', {
                                 initialValue:teacherAddress,
                                 rules: [{  message: 'Please select an owner' }],
                             })(
@@ -174,7 +172,7 @@ class RegistrationForm extends Component {
                         <Form.Item
                             label="E-mail"
                         >
-                            {getFieldDecorator('email', {
+                            {getFieldDecorator('teacherEmail', {
                                 initialValue:teacherEmail,
                                 rules: [{
                                     type: 'email', message: 'The input is not valid E-mail!',
@@ -188,7 +186,7 @@ class RegistrationForm extends Component {
                         <Form.Item
                             label="电话:"
                         >
-                            {getFieldDecorator('phone', {
+                            {getFieldDecorator('teacherPhone', {
                                 initialValue:teacherPhone,
                                 rules: [{  message: 'Please input your phone number!' }],
                             })(
@@ -196,7 +194,7 @@ class RegistrationForm extends Component {
                             )}
                         </Form.Item>
                         <Form.Item label="Birthday">
-                            {getFieldDecorator('birthday', {
+                            {getFieldDecorator('teacherBrithday', {
                                 initialValue:moment(teacherBrithday),
                                 rules: [{ required: true, message: 'Please choose the dateTime' }],
                             })(

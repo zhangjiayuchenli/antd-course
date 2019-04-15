@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
     return{
             /*修改学生*/
             onUpdate:(payload)=>dispatch({
-                type:'student/updateStu',
+                type:'student/adminUpdateStu',
                 payload:payload
             }),
             /*添加学生*/
@@ -52,35 +52,27 @@ class DrawerForm extends Component {
             if (!err) {
                 console.log('Received values of form: ', values);
                 const {id} = this.state.record;
-
-                console.log('id:'+id)
-
-              const {sex,name,password,address,birthday,email,phone,teacherId} = values
+                const {sex,name,password,address,birthday,email,phone,teacherId} = values
+                const {confirm,className,...value}=values
+                console.log(teacherId)
                 if(!id)
                 {
-                    this.props.onInsert({id,name,password,address,
-                        phone,sex,email,birthday,teacherId});
+                    this.props.onInsert(value);
                 }
                 else
                 {
-                    this.props.onUpdate({id,name,password,address,
-                        phone,sex,email,birthday,teacherId});
+                    const student = {id, ...value}
+                    this.props.onUpdate({className ,student});
                 }
-
                 this.onClose()
             }
-
-            //this.props.submitForm({username:values.userName,password:values.password});
-
-
 
         });
         this.props.form.resetFields();
     }
     compareToFirstPassword = (rule, value, callback) => {
         const form = this.props.form;
-
-        if (value && value !== form.getFieldValue('password')) {
+        if (value && value !== form.getFieldValue('studentPassword')) {
             callback('Two passwords that you enter is inconsistent!');
         } else {
             callback();
@@ -163,14 +155,14 @@ class DrawerForm extends Component {
                         <Row gutter={16}>
                             <Col span={12}>
                                 <Form.Item label="Name">
-                                    {getFieldDecorator('name', {
+                                    {getFieldDecorator('studentName', {
                                         initialValue:studentName,
                                         rules: [{ required: true, message: 'Please enter user name' },
                                             {validator: this.validateName,}],
                                     })(<Input placeholder="Please enter user name" />)}
                                 </Form.Item>
                                 <Form.Item label="Sex">
-                                    {getFieldDecorator('sex', {
+                                    {getFieldDecorator('studentSex', {
                                         initialValue:studentSex,
                                         rules: [{ required: true, message: 'Please enter user sex' },
                                         ],
@@ -186,7 +178,7 @@ class DrawerForm extends Component {
                                     </Select>)}
                                 </Form.Item>
                                 <Form.Item label="Class">
-                                    {getFieldDecorator('teacherId', {
+                                    {getFieldDecorator('className', {
                                         initialValue:teacherClassname,
                                         rules: [{ required: true, message: 'Please enter class' },
                                         ],
@@ -197,14 +189,15 @@ class DrawerForm extends Component {
                                         showSearch={true}
 
                                     >
-                                        <Option key="6" >软嵌152</Option>
-                                        <Option key="7">软嵌151</Option>
+                                        <Option value="软嵌152" >软嵌152</Option>
+                                        {/*<Option key="7">软嵌151</Option>*/}
+                                        <Option value="软嵌151">软嵌151</Option>
                                     </Select>)}
                                 </Form.Item>
                             </Col>
                             <Col span={12}>
                                 <Form.Item label="Password">
-                                    {getFieldDecorator('password', {
+                                    {getFieldDecorator('studentPassword', {
                                         initialValue:studentPassword,
                                         rules: [{ required: true, message: 'Please enter password' },
                                             {
@@ -214,8 +207,6 @@ class DrawerForm extends Component {
                                     })(
                                         <Input.Password
                                             style={{ width: '100%' }}
-                                            /*addonBefore="http://"
-                                            addonAfter=".com"*/
                                             placeholder="Please enter url"
                                         />
                                     )}
@@ -239,7 +230,7 @@ class DrawerForm extends Component {
                         <Row gutter={16}>
                             <Col span={12}>
                                 <Form.Item label="Address">
-                                    {getFieldDecorator('address', {
+                                    {getFieldDecorator('studentAddress', {
                                         initialValue:studentAddress,
                                         rules: [{ required: true, message: 'Please select an owner' }],
                                     })(
@@ -249,7 +240,7 @@ class DrawerForm extends Component {
                             </Col>
                             <Col span={12}>
                                 <Form.Item label="Phone">
-                                    {getFieldDecorator('phone', {
+                                    {getFieldDecorator('studentPhone', {
                                         initialValue:studentPhone,
                                         rules: [{ required: true, message: 'Please choose the type' }, {
                                             validator: this.validatePhone,
@@ -263,7 +254,7 @@ class DrawerForm extends Component {
                         <Row gutter={16}>
                             <Col span={12}>
                                 <Form.Item label="Email">
-                                    {getFieldDecorator('email', {
+                                    {getFieldDecorator('studentEmail', {
                                         initialValue:studentEmail,
                                         rules: [{ required: true, message: 'Please choose the approver' }],
                                     },{
@@ -275,7 +266,7 @@ class DrawerForm extends Component {
                             </Col>
                             <Col span={12}>
                                 <Form.Item label="Birthday">
-                                    {getFieldDecorator('birthday', {
+                                    {getFieldDecorator('studentBirthday', {
                                         initialValue:moment(new Date()),
                                         rules: [{ required: true, message: 'Please choose the dateTime' }],
                                     })(

@@ -48,11 +48,8 @@ class RegistrationForm extends Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                const {name,password}=values;
-                //const {id}=this.props
-                this.props.onUpdate({name,password,id:localStorage.getItem('id')})
-
-
+                const {confirm,...value}=values;
+                this.props.onUpdate(value)
             }
         });
 

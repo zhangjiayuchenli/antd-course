@@ -64,33 +64,25 @@ export default {
             console.log(res)
         },
         //得到未读消息数量
-        *getUnReadCount(action,{call,put})
+        *getUnReadCount({payload},{call,put})
         {
-            const {payload}=action;
             const url='/dev/socket/getUnReadCount?id='+payload.id+'&type='+payload.type
-            console.log('8888888')
-            //const url='/notices'
             const {res}=yield call(teacherService.get,url)
             yield put({type:'getCount',payload:res})
-            console.log(res)
-            console.log('8888888')
 
         },
 
-        *deleteTeacher(action,{call,put})
+        *deleteTeacher({payload},{call,put})
         {
-            const {payload}=action
-            console.log(payload)
             const url='/dev/teacher/deleteByPrimaryKey'
             const {res}=yield call(teacherService.delete,url,payload)
-
             yield put({type: 'getTeachers',payload: res})
 
         },
         *deleteTeacherByCheck(action,{call,put})
         {
             const {payload}=action
-            console.log(payload)
+
             const url='/dev/teacher/deleteByPrimaryKeyAndCheck'
             const {res}=yield call(teacherService.deleteByCheck,url,payload)
 
@@ -155,19 +147,22 @@ export default {
             console.log(res)
             yield put({type:'getTotalScores',payload:res})
         },
-        *updateTeacher(action,{call,put})
+        *adminUpdateTeacher({payload},{call,put})
         {
-            const {payload}=action;
-            const url='/dev/teacher/updateTeacher'
-            console.log('zhixing')
-            console.log(payload)
+            const url='/dev/teacher/adminUpdateTeacher'
             const {res}=yield call(teacherService.update,url,payload)
             yield put({type:'teacher/getTeachers',payload:res})
 
         },
-        *insertTeacher(action,{call,put})
+        *updateTeacher({payload},{call,put})
         {
-            const {payload}=action;
+            const url='/dev/teacher/updateTeacher'
+            const {res}=yield call(teacherService.update,url,payload)
+            yield put({type:'teacher/getTeachers',payload:res})
+
+        },
+        *insertTeacher({payload},{call,put})
+        {
             const url='/dev/teacher/insertTeacher'
             const {res}=yield call(teacherService.insert,url,payload)
             yield put({type:'teacher/getTeachers',payload:res})
@@ -182,12 +177,8 @@ export default {
             yield put({type:'getStuAndCourses',payload:res})
         },
         //新增学生成绩
-        *insertStuCourse(action,{call,put})
+        *insertStuCourse({payload},{call,put})
         {
-            const {payload}=action;
-            console.log("1111111111111111")
-            console.log(payload)
-            console.log("1111111111111111")
             const url='/dev/teacher/insertCourse'
             const {res}=yield call(teacherService.insertStuCourses,url,payload)
             yield put({type:'getStuAndCourses',payload:res})

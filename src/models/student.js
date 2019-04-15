@@ -6,6 +6,7 @@ export default {
     reducers:{
         getStus(state,{payload})
         {
+            //sessionStorage.setItem()
             return {...state,...{userList:payload}};
         },
         getTotalScores(state,{payload})
@@ -19,7 +20,6 @@ export default {
     },
     effects:{
         *getStu(action,{call,put}){
-            const {payload}=action;
             const url='/dev/student/selectAll'
             const {res}=yield call(studentService.get,url);
             yield put({type:'getStus',payload:res})
@@ -28,8 +28,20 @@ export default {
         *updateStu(action,{call,put}){
             const {payload}=action;
             const url='/dev/student/updateStu'
+            console.log('111111')
             const {res}=yield call(studentService.update,url,payload);
+            console.log("login")
+            console.log(res)
+            yield put({type:'getStus',payload:res})
 
+        },
+        *adminUpdateStu(action,{call,put}){
+            const {payload}=action;
+            const url='/dev/student/adminUpdateStu'
+            console.log('111111')
+            const {res}=yield call(studentService.update,url,payload);
+            console.log("login")
+            console.log(res)
             yield put({type:'getStus',payload:res})
 
         },
@@ -45,9 +57,6 @@ export default {
             const {payload}=action;
             const url='/dev/student/insertStu'
             const {res}=yield call(studentService.insert,url,payload);
-            console.log("111111111111111")
-            console.log(res)
-            console.log("111111111111111")
             yield put({type:'getStus',payload:res})
 
         },
@@ -59,22 +68,17 @@ export default {
             yield put({type:'getStus',payload:res})
         },
         //统计得到每个学生每年总分
-        *getTotalScoreByYear(action,{call,put})
+        *getTotalScoreByYear({payload},{call,put})
         {
-            const {payload}=action;
-            const url='/dev/student/selectCourseByStuId?stuId='
-                +payload.stuId
+            const url='/dev/student/selectCourseByStuId?'
             const {res}=yield call(studentService.get,url)
-            console.log(res)
             yield put({type:'getTotalScores',payload:res})
         },
         //根据学生id得到学生成绩学生信息
-        *getStuAndCourse(action,{call,put})
+        *getStuAndCourse({payload},{call,put})
         {
-            const {payload}=action;
-            const url='/dev/student/selectCourseByYears?year='+payload.year+'&id='+payload.stuId;
+            const url='/dev/student/selectCourseByYears?year='+payload.year;
             const {res}=yield call(studentService.get,url)
-            console.log(res)
             yield put({type:'getStuAndCourses',payload:res})
         },
 

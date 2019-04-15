@@ -7,7 +7,8 @@ import Logo from '../components/Logo'
 import Header from './Header'
 import styles from './index.less'
 import {connect} from 'dva'
-const {  Footer, Sider, Content, } = Layout;
+import Footer from './Footer'
+const {  Sider, Content, } = Layout;
 // 引入子菜单组件
 const SubMenu = Menu.SubMenu;
 const mapStateToProps = (state) => {
@@ -117,8 +118,8 @@ export default class BasicLayout extends Component {
 
                     </div>
 
-                        {localStorage.getItem('types')==='a'?adminSub:localStorage.getItem('types')==='b'?
-                            teacherSub:localStorage.getItem('types')==='c'?stuSub:null}
+                        {localStorage.getItem('types')==='admin'?adminSub:localStorage.getItem('types')==='teacher'?
+                            teacherSub:localStorage.getItem('types')==='stu'?stuSub:null}
                 </Sider>
                 <Layout >
                     <Header style={{ padding: 0, width:'90%',}}/>
@@ -128,7 +129,8 @@ export default class BasicLayout extends Component {
                             {children}
                         </div>
                     </Content>
-                    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                    <Footer />
+                    {/*<Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>*/}
                 </Layout>
             </Layout>
         )

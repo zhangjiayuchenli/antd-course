@@ -1,12 +1,12 @@
 import request from '../utils/request'
 const adminService={
-    update(url,{name,password,id})
+    update(url,params)
     {
-        return request.put(url,{name,password,id})
+        return request.put(url,params)
     },
-    insert(url,{description,sendType})
+    insert(url,params)
     {
-        return request.post(url,{description,sendType})
+        return request.post(url,params)
     }
 }
 export default adminService;

@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
     return{
 
         onUpdate: (payload)=>dispatch({
-            type:'teacher/updateTeacher',
+            type:'teacher/adminUpdateTeacher',
             payload:payload
         }),
         onInsert:(payload)=>dispatch({
@@ -54,15 +54,14 @@ class DrawerForm extends Component {
                 console.log('Received values of form: ', values);
                 const {id} = this.state.record;
                 const {sex,name,password,address,birthday,email,phone} = values
+                const {confirm,...value}=values;
                 if(!id)
                 {
-                    this.props.onInsert({id,name,password,address,
-                        phone,sex,email,birthday});
+                    this.props.onInsert(value);
                 }
                 else
                 {
-                    this.props.onUpdate({id,name,password,address,
-                        phone,sex,email,birthday});
+                    this.props.onUpdate({id,...value});
                 }
 
                 this.onClose()
@@ -78,7 +77,7 @@ class DrawerForm extends Component {
     compareToFirstPassword = (rule, value, callback) => {
         const form = this.props.form;
 
-        if (value && value !== form.getFieldValue('password')) {
+        if (value && value !== form.getFieldValue('teacherPassword')) {
             callback('Two passwords that you enter is inconsistent!');
         } else {
             callback();
@@ -160,14 +159,14 @@ class DrawerForm extends Component {
                         <Row gutter={16}>
                             <Col span={12}>
                                 <Form.Item label="Name">
-                                    {getFieldDecorator('name', {
+                                    {getFieldDecorator('teacherName', {
                                         initialValue:teacherName,
                                         rules: [{ required: true, message: 'Please enter user name' },
                                             {validator: this.validateName,}],
                                     })(<Input placeholder="Please enter user name" />)}
                                 </Form.Item>
                                 <Form.Item label="Sex">
-                                    {getFieldDecorator('sex', {
+                                    {getFieldDecorator('teacherSex', {
                                         initialValue:teacherSex,
                                         rules: [{ required: true, message: 'Please enter user sex' },
                                             ],
@@ -185,19 +184,17 @@ class DrawerForm extends Component {
                             </Col>
                             <Col span={12}>
                                 <Form.Item label="Password">
-                                    {getFieldDecorator('password', {
+                                    {getFieldDecorator('teacherPassword', {
                                         initialValue:teacherPassword,
                                         rules: [{ required: true, message: 'Please enter password' },
                                             {
                                                 validator: this.validateToNextPassword,
                                             },
-                                            {    validator:this.validatePasswordFormat}],
+                                            //{    validator:this.validatePasswordFormat}
+                                        ],
                                     })(
                                         <Input.Password
                                             style={{ width: '100%' }}
-                                            /*addonBefore="http://"
-                                            addonAfter=".com"*/
-                                            placeholder="Please enter url"
                                         />
                                     )}
                                 </Form.Item>
@@ -220,7 +217,7 @@ class DrawerForm extends Component {
                         <Row gutter={16}>
                             <Col span={12}>
                                 <Form.Item label="Address">
-                                    {getFieldDecorator('address', {
+                                    {getFieldDecorator('teacherAddress', {
                                         initialValue:teacherAddress,
                                         rules: [{ required: true, message: 'Please select an owner' }],
                                     })(
@@ -230,7 +227,7 @@ class DrawerForm extends Component {
                             </Col>
                             <Col span={12}>
                                 <Form.Item label="Phone">
-                                    {getFieldDecorator('phone', {
+                                    {getFieldDecorator('teacherPhone', {
                                         initialValue:teacherPhone,
                                         rules: [{ required: true, message: 'Please choose the type' }, {
                                             validator: this.validatePhone,
@@ -244,7 +241,7 @@ class DrawerForm extends Component {
                         <Row gutter={16}>
                             <Col span={12}>
                                 <Form.Item label="Email">
-                                    {getFieldDecorator('email', {
+                                    {getFieldDecorator('teacherEmail', {
                                         initialValue:teacherEmail,
                                         rules: [{ required: true, message: 'Please choose the approver' }],
                                     },{
@@ -256,7 +253,7 @@ class DrawerForm extends Component {
                             </Col>
                             <Col span={12}>
                                 <Form.Item label="Birthday">
-                                    {getFieldDecorator('birthday', {
+                                    {getFieldDecorator('teacherBrithday', {
                                         initialValue:moment(new Date()),
                                         rules: [{ required: true, message: 'Please choose the dateTime' }],
                                     })(

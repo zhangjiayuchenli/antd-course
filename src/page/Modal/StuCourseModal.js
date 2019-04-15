@@ -76,31 +76,14 @@ class StuCourseModal extends Component {
             if (!err) {
                 console.log('Received values of form: ', values);
                 const {id} = this.state.record;
-                //const {stuId}=this.props.StuIdAndYearList;
-                const {year,teacherId}=this.state;
-                console.log('id:'+id)
                 const {StuIdAndYearList,StuIdAndYearList2}=this.props
-
-                const {chinese,math,english,chemistry,name,studentId,physics,biology,schoolYears} = values
+                const {stuId,schoolYear} = values
                 if(!id)
                 {
-                    /*let year=stuList!=null?stuList[0].schoolYear:null;
-
-                    let teacherId=stuList!=null?stuList[0].teacherId:null
-*/
-                    let  isstudentId=StuIdAndYearList!=null?StuIdAndYearList.map(l=>l.id).some(s=>s===studentId):null
-
-                    let  isYear=StuIdAndYearList2!=null?StuIdAndYearList2.map(l=>l.schoolYear).some(s=>s==schoolYears):null
-                    console.log("999999999999")
-                    console.log(studentId)
-                    console.log(StuIdAndYearList!=null?StuIdAndYearList.map(l=>l.id):null)
-                    console.log('isstudentId:'+isstudentId)
-                    console.log(schoolYears)
-                    console.log(StuIdAndYearList2!=null?StuIdAndYearList2.map(l=>l.schoolYear):null)
-                    console.log('isYear:'+isYear)
-                    console.log('isstudentId&&isYear:'+isstudentId&&isYear)
-                    console.log("999999999999")
-                    if(isstudentId)
+                    //判断学号是否为本班学生学号
+                    let  isStuId=StuIdAndYearList!=null?StuIdAndYearList.map(l=>l.id).some(s=>s===stuId):null
+                    let  isYear=StuIdAndYearList2!=null?StuIdAndYearList2.map(l=>l.schoolYear).some(s=>s==schoolYear):null
+                    if(isStuId)
                     {
                         if(isYear)
                         {
@@ -109,7 +92,7 @@ class StuCourseModal extends Component {
                         }
                         else if(!isYear)
                         {
-                            this.props.onInsert({chinese,math,english,chemistry,name,studentId,physics,biology,schoolYears,year,teacherId});
+                            this.props.onInsert({...values});
 
                         }
                     }
@@ -117,7 +100,7 @@ class StuCourseModal extends Component {
                 }
                 else
                 {
-                    this.props.onUpdate({id,chinese,math,english,chemistry,physics,biology,year,teacherId});
+                    this.props.onUpdate({id,...values});
                 }
 
                 this.handleCancel()
@@ -136,7 +119,7 @@ class StuCourseModal extends Component {
     render() {
         const { visible, confirmLoading, ModalText } = this.state;
         const { getFieldDecorator ,getFieldValue } = this.props.form;
-        const {chinese,math,english,chemistry,name,stuId,physics,biology} = this.state.record;
+        const {chinese,math,english,chemistry,studentName,stuId,physics,biology} = this.state.record;
         return (
             <div>
                 <StudentTable show={this.showModal}/>
@@ -151,8 +134,8 @@ class StuCourseModal extends Component {
                     <Row gutter={16}>
                         <Col span={8}>
                             <Form.Item label="Name">
-                                {getFieldDecorator('name', {
-                                    initialValue:name,
+                                {getFieldDecorator('studentName', {
+                                    initialValue:studentName,
                                     rules: [{ required: true, message: 'Please enter user name' },
                                         {validator: this.validateName,}],
                                 })(<Input placeholder="Please enter user name" />)}
@@ -160,7 +143,7 @@ class StuCourseModal extends Component {
                         </Col>
                         <Col span={10}>
                            <Form.Item label="StuId">
-                                {getFieldDecorator('studentId', {
+                                {getFieldDecorator('stuId', {
                                     initialValue:stuId,
                                     rules: [{ required: true, message: 'Please enter studentId' },
 
@@ -176,8 +159,7 @@ class StuCourseModal extends Component {
                         </Col>
                         <Col span={6} >
                             <Form.Item label="学年">
-                                {getFieldDecorator('schoolYears', {
-
+                                {getFieldDecorator('schoolYear', {
                                     rules: [{ required: true, message: 'Please enter user sex' },
                                     ],
                                 })(<Select

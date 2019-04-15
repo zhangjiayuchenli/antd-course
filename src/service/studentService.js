@@ -3,52 +3,12 @@ const studentService={
     get(url) {
         return request.get(url)
     },
-    update(url, {
-        id,
-        name,
-        password,
-        phone,
-        address,
-        email,
-        sex,
-        birthday,
-        teacherId
-    }) {
-        return request.put(url,{
-            id,
-            name,
-            password,
-            phone,
-            address,
-            email,
-            sex,
-            birthday,
-            teacherId
-        })
+    update(url, params) {
+        return request.put(url,params)
     },
-    insert(url, {
-        id,
-        name,
-        password,
-        phone,
-        address,
-        email,
-        sex,
-        birthday,
-        teacherId
-    }) {
+    insert(url, params) {
 
-        return request.post(url,{
-            id,
-            name,
-            password,
-            phone,
-            address,
-            email,
-            sex,
-            birthday,
-            teacherId
-        })
+        return request.post(url,params)
     },
     delete(url, {id}) {
 

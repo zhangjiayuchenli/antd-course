@@ -21,16 +21,13 @@ const mapDispatchToProps = (dispatch) => {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class StudentTable extends Component{
     componentDidMount= ()=> {
-        this.props.onSubmit({stuId:localStorage.getItem('id'),year:'1'});
+        this.props.onSubmit({year:'1'});
     }
     handleChange=(value)=>{
-        this.props.onSubmit({stuId:localStorage.getItem('id'),year:value})
+        this.props.onSubmit({year:value})
     }
     render() {
         const {stuList=[]} = this.props
-        console.log("111111111111")
-        console.log([stuList])
-        console.log("111111111111")
         const columns = [
                 {title: 'stuId', dataIndex:'id'},
                 {title: 'name', dataIndex:'studentName'},
@@ -67,7 +64,6 @@ export default class StudentTable extends Component{
                 <Select
                     onChange={this.handleChange}
                     defaultValue='1'
-
                     style={{ width: '20%' }}
                     allowClear={true}
                     showSearch={true}

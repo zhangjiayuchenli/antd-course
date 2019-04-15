@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component,Fragment} from 'react'
 import {
     Form, Icon, Input, Button, Checkbox,Radio,Carousel
 } from 'antd';
@@ -6,11 +6,32 @@ import Logo from '../../components/Logo'
 import { connect } from 'dva';
 import router from 'umi/router';
 import styles from './Login.less';
+import GlobalFooter from '../../components/GlobalFooter';
+const links = [
+    {
+        key: 'help',
+        title: '帮助',
+        href: '',
+    },
+    {
+        key: 'privacy',
+        title: '隐私',
+        href: '',
+    },
+    {
+        key: 'terms',
+        title: '',
+        href: '',
+    },
+];
 
-
+const copyright = (
+    <Fragment>
+        Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品
+    </Fragment>
+);
 const mapStateToProps = (state) => {
     return {
-
         user: state.login.user,
         types: state.login.types
 
@@ -19,7 +40,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         submitForm: (payload) => {
-            console.log(payload)
             dispatch({
                 type: 'login/save',
                 payload: payload
@@ -33,15 +53,11 @@ const mapDispatchToProps = (dispatch) => {
                 }
             )
         },
-
-
-
     };
 };
 @connect(mapStateToProps, mapDispatchToProps)
 class NormalLoginForm extends Component {
     componentWillUpdate=() =>{
-        console.log('/////////////////////////////////')
         const user = JSON.parse(localStorage.getItem('user'))
         if(user&&user.isLogin== false){
             alert('错误')
@@ -108,12 +124,12 @@ class NormalLoginForm extends Component {
 
                         >
                             {getFieldDecorator('radio',{
-                                initialValue: 'b'
+                                initialValue: 'teacher'
                             })(
                                 <Radio.Group>
-                                    <Radio value="a">管理员</Radio>
-                                    <Radio value="b">教师</Radio>
-                                    <Radio value="c">学生</Radio>
+                                    <Radio value="admin">管理员</Radio>
+                                    <Radio value="teacher">教师</Radio>
+                                    <Radio value="stu">学生</Radio>
                                 </Radio.Group>
                             )}
                         </Form.Item>
@@ -134,7 +150,9 @@ class NormalLoginForm extends Component {
                         </Form.Item>
                     </Form>
                 </div>
-
+                {/*<div className={styles.footer}>
+                    <GlobalFooter links={links} copyright={copyright} />
+                </div>*/}
             </div>
 
         );

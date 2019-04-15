@@ -22,9 +22,6 @@ export default class studentCenter extends Component{
     }
 
     render() {
-        console.log("11111111")
-        console.log(JSON.parse(sessionStorage.getItem('user')).id)
-        console.log("11111111")
         return (
             <Row gutter={24}>
                 <Col span={24}>

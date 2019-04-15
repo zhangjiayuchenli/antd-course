@@ -45,7 +45,7 @@ export default class GlobalHeader extends Component{
         //const code='1'
         const {changeCodes,clearSession}=this.props;
 
-        if(types=='a')
+        if(types=='admin')
         {
             if(key=="logout")
             {
@@ -65,7 +65,7 @@ export default class GlobalHeader extends Component{
                 router.replace('/account/setting/admin')
             }
         }
-        if(types=='b')
+        if(types=='teacher')
         {
             if(key=="logout")
             {
@@ -85,7 +85,7 @@ export default class GlobalHeader extends Component{
                 router.replace('/account/setting/teacher')
             }
         }
-        if(types=='c')
+        if(types=='stu')
         {
             if(key=="logout")
             {
@@ -134,15 +134,11 @@ export default class GlobalHeader extends Component{
     }
 
     render() {
-        console.log(this.props.count)
-        const {count}=this.props
-        console.log([count])
-        //console.log(prase.json(count))
+        const {count,onNoticeClear}=this.props
         const notice=(<NoticeIcon
             className={styles.action}
-            //onChange={this.handleChange}
-            //count={localStorage.getItem('count')}
             count={count}
+            onClear={onNoticeClear}
             onPopupVisibleChange={this.handleChange}
             onViewMore={() => message.info('Click on view more')}
             clearClose

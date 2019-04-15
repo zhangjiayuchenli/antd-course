@@ -13,19 +13,15 @@ export default {
         }
     },
     effects:{
-        *updateAdmin(action,{call,put})
+        *updateAdmin({payload},{call,put})
         {
-            const {payload}=action;
-            console.log(payload)
             const url='/dev/admin/updateAdmin';
             const data=yield call(adminService.update,url,payload);
-            console.log(data);
             yield put({type:'updateAdmins',payload:data})
 
         },
-        *sendMessage(action,{call})
+        *sendMessage({payload},{call})
         {
-            const {payload}=action;
             const url='/dev/admin/sendMessage'
             yield call(adminService.insert,url,payload)
         }

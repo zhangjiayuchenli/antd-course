@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {
     Form, Input,  Select, Row, Col,  Button, AutoComplete,InputNumber
 } from 'antd';
+import Link from 'umi/link';
 import { connect } from 'dva';
 import styles from './index.less'
 import ucmp from "../../assets/ucmp-logo-cloud.png";
@@ -34,8 +35,19 @@ class ForgetForm extends Component {
     state = {
         confirmDirty: false,
         autoCompleteResult: [],
+        count:0
     };
-
+    onGetCaptcha = () => {
+        let count = 59;
+        this.setState({ count });
+        this.interval = setInterval(() => {
+            count -= 1;
+            this.setState({ count });
+            if (count === 0) {
+                clearInterval(this.interval);
+            }
+        }, 1000);
+    };
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -43,14 +55,6 @@ class ForgetForm extends Component {
                 console.log('Received values of form: ', values);
                 const {captcha,email,password}=values;
                 const {captchaCode,onUpdatePassword}=this.props;
-                /*if (captchaCode===0)
-                {
-                    onUpdatePassword({email,password})
-                }
-                else if(captchaCode===-1)
-                {
-                    alert("验证码错误！")
-                }*/
                 onUpdatePassword({captcha,email,password})
 
             }
@@ -87,18 +91,22 @@ class ForgetForm extends Component {
 
     getCaptcha=()=>{
 
+            let count = 59;
+            this.setState({ count });
+            this.interval = setInterval(() => {
+                count -= 1;
+                this.setState({ count });
+                if (count === 0) {
+                    clearInterval(this.interval);
+                }
+            }, 1000);
+
         const { getFieldValue } = this.props.form;
         console.log(getFieldValue('email'))
         this.props.onSend({email:getFieldValue('email')})
 
     }
-    handleChange = (e) => {
-        e.persist;
-        console.log("111111111111")
-        console.log(e)
-        console.log("111111111111")
-        //this.props.onValidateCaptcha({captcha: e})
-    }
+
     componentDidUpdate = prevProps =>{
         console.log(this.props.login)
         if(prevProps.login!== this.props.login) {
@@ -116,10 +124,7 @@ class ForgetForm extends Component {
 
     }
     render() {
-
         const { getFieldDecorator } = this.props.form;
-        const { autoCompleteResult } = this.state;
-
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -174,7 +179,11 @@ class ForgetForm extends Component {
                                 )}
                             </Col>
                             <Col span={12}>
-                                <Button onClick={this.getCaptcha}>Get captcha</Button>
+                                <Button
+                                    disabled={this.state.count}
+                                    onClick={this.getCaptcha}>{this.state.count
+                                    ? `${this.state.count} s`
+                                    : "getCaptcha"}</Button>
                             </Col>
                         </Row>
                     </Form.Item>
@@ -205,7 +214,10 @@ class ForgetForm extends Component {
                         )}
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">提交</Button>
+                        <Button type="primary" htmlType="submit">提交</Button>&nbsp; &nbsp;&nbsp;
+                        <Link  to="/login">
+                            返回登录
+                        </Link>
                     </Form.Item>
                 </Form>
             </div>

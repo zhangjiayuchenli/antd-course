@@ -28,52 +28,22 @@ const teacherService={
         return request.get(url)
     },
     //update->put,insert->post
-    update(url,{id,
-        name,
-        password,
-        phone,
-        address,
-        email,
-        sex,
-        birthday})
+    update(url,params)
     {
-        console.log('zhixing')
-        console.log(address)
-        return request.put(url,{id,
-            name,
-            password,
-            phone,
-            address,
-            email,
-            sex,
-            birthday})
+        return request.put(url,params)
     },
-    updateStuCourse(url,{id,chinese,math,english,chemistry,physics,biology,year,teacherId})
+    updateStuCourse(url,params)
     {
-        return request.put(url,{id,chinese,math,english,chemistry,physics,biology,year,teacherId})
+        return request.put(url,params)
     }
     ,
-    insert(url,{id,
-        name,
-        password,
-        phone,
-        address,
-        email,
-        sex,
-        birthday})
+    insert(url,params)
     {
-        return request.post(url,{id,
-            name,
-            password,
-            phone,
-            address,
-            email,
-            sex,
-            birthday})
+        return request.post(url,params)
     },
-    insertStuCourses(url,{chinese,math,english,chemistry,name,studentId,physics,biology,schoolYears,year,teacherId})
+    insertStuCourses(url,params)
     {
-        return request.post(url,{chinese,math,english,chemistry,name,studentId,physics,biology,schoolYears,year,teacherId})
+        return request.post(url,params)
     }
 }
 export default teacherService;

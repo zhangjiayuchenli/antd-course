@@ -40,9 +40,9 @@ export default class NoticeIcon extends PureComponent {
     }
   };
 
-  onClear = name => {
+  onClear = () => {
     const { onClear, clearClose } = this.props;
-    onClear(name);
+    onClear();
     if (clearClose) {
       this.popover.click();
     }
@@ -69,6 +69,7 @@ export default class NoticeIcon extends PureComponent {
       const msgCount = count || count === 0 ? count : len;
       const localeTitle = locale[title] || title;
       const tabTitle = msgCount > 0 ? `${localeTitle} (${msgCount})` : localeTitle;
+      let id=localStorage.getItem('id')
       return (
         <TabPane tab={tabTitle} key={title}>
 
@@ -78,7 +79,7 @@ export default class NoticeIcon extends PureComponent {
             emptyImage={emptyImage}
             emptyText={emptyText}
             locale={locale}
-            onClear={() => this.onClear(title)}
+            onClear={() => this.onClear()}
             onClick={item => this.onItemClick(item, child.props)}
             onViewMore={event => this.onViewMore(child.props, event)}
             showClear={showClear}
